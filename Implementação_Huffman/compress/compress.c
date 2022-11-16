@@ -47,7 +47,7 @@ void comprimir(const char *entrada, const char *saida)
     
     unsigned long bytes[256] = {0};
     tree *hufftree = NULL;
-    byte escape = '\\';
+    byte escape = '\\';  
     byte null = 0;
 
     FILE *arquivo_e = fopen(entrada, "rb");
@@ -59,6 +59,7 @@ void comprimir(const char *entrada, const char *saida)
         error_file();
     
     printf("------------------------------------------------------------\n ,--.  ,--.,--. ,--.,------.,------.,--.   ,--.  ,---.  ,--.  ,--.\n |  '--'  ||  | |  ||  .---'|  .---'|   `.'   | /  O  \\ |  ,'.|  |\n |  .--.  ||  | |  ||  `--, |  `--, |  |'.'|  ||  .-.  ||  |' '  |\n |  |  |  |'  '-'  '|  |`   |  |`   |  |   |  ||  | |  ||  | `   |\n `--'  `--' `-----' `--'    `--'    `--'   `--'`--' `--'`--'  `--'\n\nIniciando compressao...\n");
+    //recebe o arquivo de entrada no formato binário e os 256 bytes
     buscando_frequencias(arquivo_e, bytes);
     hufftree = huffman_tree(bytes);
 
@@ -70,8 +71,9 @@ void comprimir(const char *entrada, const char *saida)
     byte ch;
     byte aux = 0;
     short tamanho = 0;
+    //vai ler todos os bytes dos nosso arquivo de entrada enquanto for >=1
     while (fread(&ch, 1, 1, arquivo_e) >= 1)
-    {
+    {   
         char buffer[1024] = {'0'};
     
         codificar(hufftree, ch, buffer, 0);

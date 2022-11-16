@@ -7,6 +7,7 @@ void header_decompress(FILE *arquivo_e, short int *tree_size, short int *trash_s
 	header[0] = fgetc(arquivo_e);
 
     byte tr = header[1] >> 5;
+    //memcpy *copia* (destino, origem, quantidade de bytes a serem copiados)
     memcpy(trash_size, &tr, 1);
 
 	header[1] = header[1] << 3;
@@ -32,8 +33,8 @@ void descomprimir(const char *entrada, const char *saida)
     header_decompress(arquivo_e, &tree_size, &trash_size);
     fread(string_tree, 1, tree_size, arquivo_e);
     
-    //Após a árvore ter sido reconstruida, cria-se uma árvore auxiliar(huff_nav) que será utilizada para navegar com o 
-    //buffer_byte até encontrar uma folha
+    //Após a árvore ter sido reconstruida, cria-se uma árvore auxiliar(huff_nav) que será utilizada para navegar 
+    //com o buffer_byte até encontrar uma folha
     hufftree = rebuild_hufftree(string_tree, &mark);
     tree *huff_nav = hufftree;
     

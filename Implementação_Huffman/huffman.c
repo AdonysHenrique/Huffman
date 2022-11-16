@@ -167,6 +167,8 @@ void insert(node_pq *node, queue *q)
 tree* huffman_tree(unsigned long *bytes)
 {
     //fila de prioridade implementada como lista encadeada
+    //head == NULL
+    //tam == 0
     queue queue = {NULL, 0};
     
     //Passa pelo array de bytes e adiciona as frequências
@@ -194,6 +196,7 @@ tree* huffman_tree(unsigned long *bytes)
 void buscando_frequencias(FILE *entrada, unsigned long *bytes)
 {
     byte b;
+
     while(fread(&b, 1, 1, entrada))
         bytes[b]++;
     //void rewind(FILE *stream) = volta a stream FILE *entrada para o começo do arquivo
@@ -233,10 +236,13 @@ void comprimir(const char *entrada, const char *saida)
     byte escape = '\\';
     byte null = 0;
 
+    //cria um arquivo tipo FILE que é um ponteiro, salva nesse arquivo o que tá na entrada, só que em binário
+    //por causa do RB.
     FILE *arquivo_e = fopen(entrada, "rb");
     if(!arquivo_e)
         error_file();
 
+    //cria um arquivo tipo FILE que é um ponteiro, salva nesse arquivo o que tá na saída
     FILE *arquivo_s = fopen(saida, "wb");
     if(!arquivo_s)
         error_file();
@@ -381,7 +387,7 @@ void error_param()
 // argv[] = array de strings que contém os parâmetros passados para o programa
 int main(int argc, char *argv[])
 {
-    if(argc < 4 || argc > 4){
+    if(argc != 4){
         error_param();
         return 0;
     }
